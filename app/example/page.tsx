@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function LandingPage() {
     return (
         <div>
@@ -26,9 +28,11 @@ export default function LandingPage() {
 
                     {/* Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button className="px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-500 transition font-semibold cursor-pointer">
-                            View Projects
-                        </button>
+                        <Link href="/example/projects">
+                            <button className="px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-500 transition font-semibold cursor-pointer">
+                                View Projects
+                            </button>
+                        </Link>
 
                         <button className="px-6 py-3 rounded-lg border border-gray-500 hover:bg-gray-800 transition font-semibold cursor-pointer">
                             Contact Me
