@@ -1,6 +1,9 @@
 "use client";
 
+import { useContactForm } from "../hooks/use-contact-form";
+
 export default function ContactForm() {
+    const { name, email, message, setName, setEmail, setMessage, handleSubmit } = useContactForm()
 
     return (
         <main className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-black text-white flex items-center justify-center px-6">
@@ -20,7 +23,7 @@ export default function ContactForm() {
                 </div>
 
                 {/* Form */}
-                <form className="bg-gray-900/60 backdrop-blur rounded-2xl p-8 space-y-6 border border-gray-800">
+                <form onSubmit={handleSubmit} className="bg-gray-900/60 backdrop-blur rounded-2xl p-8 space-y-6 border border-gray-800">
 
                     {/* Name */}
                     <div>
@@ -28,6 +31,8 @@ export default function ContactForm() {
                             Full Name
                         </label>
                         <input
+                            value={name}
+                            onChange={(e) => { setName(e.target.value) }}
                             type="text"
                             required
                             placeholder="Your name"
@@ -41,6 +46,8 @@ export default function ContactForm() {
                             Email Address
                         </label>
                         <input
+                            value={email}
+                            onChange={(e) => { setEmail(e.target.value) }}
                             type="email"
                             required
                             placeholder="you@example.com"
@@ -54,6 +61,8 @@ export default function ContactForm() {
                             Message
                         </label>
                         <textarea
+                            value={message}
+                            onChange={(e) => { setMessage(e.target.value) }}
                             rows={5}
                             required
                             placeholder="Tell me about your project..."
