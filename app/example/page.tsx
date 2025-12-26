@@ -34,9 +34,11 @@ export default function LandingPage() {
                             </button>
                         </Link>
 
-                        <button className="px-6 py-3 rounded-lg border border-gray-500 hover:bg-gray-800 transition font-semibold cursor-pointer">
-                            Contact Me
-                        </button>
+                        <Link href="/example/contact">
+                            <button className="px-6 py-3 rounded-lg border border-gray-500 hover:bg-gray-800 transition font-semibold cursor-pointer">
+                                Contact Me
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </main>
