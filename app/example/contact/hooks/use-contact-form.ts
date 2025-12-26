@@ -1,11 +1,14 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 export const useContactForm = () => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [message, setMessage] = useState("")
+
+    const router = useRouter()
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -16,6 +19,7 @@ export const useContactForm = () => {
         }
         console.log(data)
         alert("Thank you for reaching out! Your message has been sent successfully. I'll get back to you soon.");
+        router.push("/")
     }
 
     return {
