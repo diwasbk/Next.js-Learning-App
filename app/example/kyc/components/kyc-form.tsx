@@ -1,7 +1,28 @@
 "use client";
 
+import { useForm } from "react-hook-form";
+import { kycSchema, KycType } from "../schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+
 export default function KYCForm() {
-    
+    const router = useRouter()
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting }
+    } = useForm<KycType>(
+        {
+            resolver: zodResolver(kycSchema),
+        }
+    )
+
+    const onSubmit = (data: KycType) => {
+        console.log(data.name, data.email, data.idType, data.idNumber, data.address)
+        router.push("/")
+    }
+
     return (
         <main className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-black text-white flex items-center justify-center px-6">
             <div className="w-full max-w-3xl">
@@ -19,17 +40,21 @@ export default function KYCForm() {
                 </div>
 
                 {/* Form */}
-                <form className="bg-gray-900/60 backdrop-blur rounded-2xl p-8 space-y-6 border border-gray-800 mb-5">
+                <form onSubmit={handleSubmit(onSubmit)} className="bg-gray-900/60 backdrop-blur rounded-2xl p-8 space-y-6 border border-gray-800 mb-5">
                     {/* Full Name */}
                     <div>
                         <label className="block text-sm text-gray-300 mb-2">
                             Full Name
                         </label>
                         <input
+                            {...register("name")}
                             type="text"
                             placeholder="Your full name"
                             className="w-full rounded-lg bg-gray-800 border border-gray-700 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
+                        {errors.name && (
+                            <p className="text-xs text-red-600 mt-2">{errors.name.message}</p>
+                        )}
                     </div>
 
                     {/* Email */}
@@ -38,10 +63,14 @@ export default function KYCForm() {
                             Email Address
                         </label>
                         <input
+                            {...register("email")}
                             type="email"
                             placeholder="you@example.com"
                             className="w-full rounded-lg bg-gray-800 border border-gray-700 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
+                        {errors.email && (
+                            <p className="text-xs text-red-600 mt-2">{errors.email.message}</p>
+                        )}
                     </div>
 
                     {/* ID Type */}
@@ -50,6 +79,7 @@ export default function KYCForm() {
                             ID Type
                         </label>
                         <select
+                            {...register("idType")}
                             className="w-full rounded-lg bg-gray-800 border border-gray-700 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <option value="">Select ID Type</option>
@@ -57,6 +87,9 @@ export default function KYCForm() {
                             <option value="passport">Passport</option>
                             <option value="driving_license">Driving License</option>
                         </select>
+                        {errors.idType && (
+                            <p className="text-xs text-red-600 mt-2">{errors.idType.message}</p>
+                        )}
                     </div>
 
                     {/* ID Number */}
@@ -65,10 +98,14 @@ export default function KYCForm() {
                             ID Number
                         </label>
                         <input
+                            {...register("idNumber")}
                             type="text"
                             placeholder="Enter ID number"
                             className="w-full rounded-lg bg-gray-800 border border-gray-700 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
+                        {errors.idNumber && (
+                            <p className="text-xs text-red-600 mt-2">{errors.idNumber.message}</p>
+                        )}
                     </div>
 
                     {/* Address */}
@@ -77,14 +114,19 @@ export default function KYCForm() {
                             Address
                         </label>
                         <input
+                            {...register("address")}
                             placeholder="Your current address"
                             className="w-full rounded-lg bg-gray-800 border border-gray-700 px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                         />
+                        {errors.address && (
+                            <p className="text-xs text-red-600 mt-2">{errors.address.message}</p>
+                        )}
                     </div>
 
                     {/* Submit */}
                     <button
                         type="submit"
+                        disabled = {isSubmitting}
                         className="w-full rounded-lg bg-blue-600 py-3 font-semibold hover:bg-blue-500 transition cursor-pointer"
                     >
                         Submit KYC
