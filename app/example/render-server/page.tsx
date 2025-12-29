@@ -1,6 +1,17 @@
 "use client"
 
+import { useTransition } from "react";
+import { handleRouterChange } from "./actions/logic";
+
 export default function Page() {
+    const [isPending, startTransition] = useTransition()
+
+    const onClick = () => {
+        startTransition(async () => {
+            await handleRouterChange()
+        })
+    }
+
     return (
         <div>
             <main className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-black text-white flex items-center justify-center px-6">
@@ -16,6 +27,8 @@ export default function Page() {
 
                     {/* Button */}
                     <button
+                        onClick={onClick}
+                        disabled={isPending}
                         className="px-6 py-3 rounded-lg border-2 border-gray-500 hover:bg-gray-800 transition font-semibold cursor-pointer">
                         Go to Home Page
                     </button>
