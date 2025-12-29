@@ -20,19 +20,31 @@ export default function Page() {
                     </h1>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+
                         <div>
                             {/* Image imported from app folder (height & width are optional). */}
                             <h2 className="text-lg font-semibold mb-4 text-gray-400">
                                 App Directory Image
                             </h2>
-
                             <Image className="rounded-lg"
                                 src={img1}
                                 alt="Camera"
                             />
                         </div>
+
+                        <div>
+                            {/* Image imported from public folder (height & width are mandatory). */}
+                            <h2 className="text-lg font-semibold mb-4 text-gray-400">
+                                Public Directory Image
+                            </h2>
+                            <Image className="rounded-lg"
+                                src="/images/airpods.jpg"
+                                alt="Airpods"
+                                height={300}
+                                width={800}
+                            />
+                        </div>
                     </div>
-                    
                 </div>
             </main>
         </div>
