@@ -4,23 +4,38 @@ import { useForm } from "react-hook-form";
 import { kycSchema, KycType } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { handleKycSubmission } from "@/app/lib/actions/kyc-actions";
 
 export default function KYCForm() {
     const router = useRouter()
+    const [isPending, setTransition] = useTransition()
+    const [err, setError] = useState("")
 
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting }
+        formState: { errors }
     } = useForm<KycType>(
         {
             resolver: zodResolver(kycSchema),
         }
     )
 
-    const onSubmit = (data: KycType) => {
-        console.log(data.name, data.email, data.idType, data.idNumber, data.address)
-        router.push("/")
+    const onSubmit = async (data: KycType) => {
+        setError("")
+        try {
+            const res = await handleKycSubmission(data)
+            if (!res.success) {
+                throw new Error(res.message || "KYC submission failed")
+            }
+            setTransition(() => {
+                router.push("/")
+            })
+        }
+        catch (err: any) {
+            setError(err.message || "KYC submission failed!")
+        }
     }
 
     return (
@@ -38,6 +53,8 @@ export default function KYCForm() {
                         Please complete your identity verification
                     </p>
                 </div>
+
+                {err && <p className="text-red-500 text-center">{err}</p>}
 
                 {/* Form */}
                 <form onSubmit={handleSubmit(onSubmit)} className="bg-gray-900/60 backdrop-blur rounded-2xl p-8 space-y-6 border border-gray-800 mb-5">
@@ -126,7 +143,7 @@ export default function KYCForm() {
                     {/* Submit */}
                     <button
                         type="submit"
-                        disabled = {isSubmitting}
+                        disabled={isPending}
                         className="w-full rounded-lg bg-blue-600 py-3 font-semibold hover:bg-blue-500 transition cursor-pointer"
                     >
                         Submit KYC
