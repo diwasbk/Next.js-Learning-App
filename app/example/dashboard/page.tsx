@@ -1,5 +1,6 @@
 "use client"
 
+import { handleLogout } from "@/app/lib/actions/auth-actions";
 import Link from "next/link";
 
 export default function Page() {
@@ -10,12 +11,11 @@ export default function Page() {
                 {/* Header */}
                 <header className="flex items-center justify-between mb-10">
                     <h1 className="text-3xl font-bold">Dashboard</h1>
-                    <Link
-                        href="/logout"
-                        className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 transition font-medium"
-                    >
+                    <button
+                        onClick={() => { handleLogout() }}
+                        className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 transition font-medium cursor-pointer">
                         Logout
-                    </Link>
+                    </button>
                 </header>
 
                 {/* Welcome Card */}
