@@ -1,7 +1,9 @@
 // Backend API call only
+import { KycType } from "@/app/example/kyc/schema";
 import axiosInstance from "./axios";
 import { API } from "./endpoints";
-export const fillKycDetails = async (kycData: any) => {
+
+export const fillKycDetails = async (kycData: KycType) => {
     try {
         const response = await axiosInstance.post(API.kyc.fillKyc, kycData);
         return response.data;
