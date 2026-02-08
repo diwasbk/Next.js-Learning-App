@@ -70,3 +70,27 @@ export const handleSendPasswordResetEmail = async (data: sendPasswordResetEmailT
         }
     }
 };
+
+export const handleResetAccountPassword = async (data: resetPasswordType) => {
+    try {
+        const result: any = await resetAccountPassword(data);
+
+        if (!result.success) {
+            return {
+                message: result.message,
+                success: false
+            }
+        }
+
+        return {
+            message: result.message || "Password changed successfully!",
+            success: true
+        }
+        
+    } catch (err: any) {
+        return {
+            message: err.message || "Failed to reset password!",
+            success: false
+        }
+    }
+};
