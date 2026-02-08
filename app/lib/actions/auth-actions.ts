@@ -1,9 +1,10 @@
 "use server"
 import { loginType } from "@/app/(auth)/login/schema";
-import { loginUser } from "../api/auth";
+import { loginUser, resetAccountPassword, sendPasswordResetEmail } from "../api/auth";
 import { clearAuthCookies, setAuthToken, setUserData } from "../cookie";
 import { jwtDecode } from "jwt-decode";
 import { redirect } from "next/navigation";
+import { resetPasswordType, sendPasswordResetEmailType } from "@/app/(auth)/schems";
 
 export const handleUserLogin = async (data: loginType) => {
     try {
@@ -44,4 +45,28 @@ export const handleUserLogin = async (data: loginType) => {
 export const handleLogout = async () => {
     await clearAuthCookies();
     return redirect('/login');
-}
+};
+
+export const handleSendPasswordResetEmail = async (data: sendPasswordResetEmailType) => {
+    try {
+        const result: any = await sendPasswordResetEmail(data);
+
+        if (!result.success) {
+            return {
+                message: result.message,
+                success: false
+            }
+        }
+
+        return {
+            message: result.message || "Password reset email sent successfully!",
+            success: true
+        }
+        
+    } catch (err: any) {
+        return {
+            message: err.message || "Failed to send password reset email!",
+            success: false
+        }
+    }
+};
