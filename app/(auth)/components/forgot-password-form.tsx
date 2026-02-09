@@ -10,6 +10,7 @@ import { useState } from "react";
 export default function ForgotPasswordForm() {
     const router = useRouter();
     const [isPending, setIsPending] = useState(false);
+    const [error, setError] = useState("");
 
     const {
         register,
@@ -35,7 +36,7 @@ export default function ForgotPasswordForm() {
             router.push("/")
 
         } catch (err: any) {
-            console.log(err.message || "Failed to send password reset email!")
+            setError(err.message || "Failed to send password reset email!")
             
         } finally {
             setIsPending(false);
@@ -56,6 +57,12 @@ export default function ForgotPasswordForm() {
 
                 {/* Form */}
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+
+                    {/* Server Error */}
+                    {error && (
+                        <div className="p-3 bg-red-100 border border-red-200 text-sm text-red-500 mt-2 rounded-xl"> {error}</div>
+                    )}
+
                     <div>
                         <label className="block text-sm text-gray-300 mb-1">
                             Email

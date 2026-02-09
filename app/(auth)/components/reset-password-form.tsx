@@ -13,6 +13,7 @@ export default function ResetPasswordPage() {
 
     const router = useRouter();
     const [isPending, setIsPending] = useState(false);
+    const [error, setError] = useState("");
 
     const {
         register,
@@ -28,6 +29,7 @@ export default function ResetPasswordPage() {
     );
 
     const onSubmit = async (data: resetPasswordType) => {
+        setError("");
         setIsPending(true);
 
         try {
@@ -40,7 +42,7 @@ export default function ResetPasswordPage() {
             router.push("/login")
 
         } catch (err: any) {
-            console.log(err.message || "Password changed successfully!")
+            setError(err.message || "Password changed successfully!")
 
         } finally {
             setIsPending(false);
@@ -61,6 +63,12 @@ export default function ResetPasswordPage() {
 
                 {/* Form */}
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+
+                    {/* Server Error */}
+                    {error && (
+                        <div className="p-3 bg-red-100 border border-red-200 text-sm text-red-500 mt-2 rounded-xl"> {error}</div>
+                    )}
+
                     {/* New Password */}
                     <div>
                         <label className="block text-sm text-gray-300 mb-1">
